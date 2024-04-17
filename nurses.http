@@ -1,0 +1,14 @@
+POST http://127.0.0.1:5000/api/create/nurse/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMzMwMzQxOSwianRpIjoiOGJiMzlkOWYtYWE0ZS00MGU5LWJkNGItMDE2NGI4YjQzZTM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzEzMzAzNDE5LCJjc3JmIjoiNGRiYTg1N2YtNTEwOS00MThiLWI1NzItNTIxMzliNmZkMDY1IiwiZXhwIjoxNzEzMzA0MzE5fQ.ilukQTwGjEv6__HPmyTdqc3VbgmxaIQs-3PBVjmz0X0
+
+{
+    "qualifications": "Registered Nurse",
+    "experience": "5 years",
+    "areas_of_expertise": ["Pediatrics", "Emergency Medicine"],
+    "email": "nurse@example.com",
+    "first_name": "John",
+    "last_name": "Doe",
+    "phone": "123-456-7890"
+}
+
