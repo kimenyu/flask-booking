@@ -1,14 +1,13 @@
-POST http://127.0.0.1:5000/api/create/nurse/profile
+POST http://127.0.0.1:5000/api/create/patient/profile
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMzMwMzQxOSwianRpIjoiOGJiMzlkOWYtYWE0ZS00MGU5LWJkNGItMDE2NGI4YjQzZTM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzEzMzAzNDE5LCJjc3JmIjoiNGRiYTg1N2YtNTEwOS00MThiLWI1NzItNTIxMzliNmZkMDY1IiwiZXhwIjoxNzEzMzA0MzE5fQ.ilukQTwGjEv6__HPmyTdqc3VbgmxaIQs-3PBVjmz0X0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMzM0MzA3NiwianRpIjoiZDI4YTRjYTktNmQ0MS00YTc5LWI4NzItMGJkZDA4Y2UzNjlhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzEzMzQzMDc2LCJjc3JmIjoiYjI2OTk2MTgtYmQyMS00ZWRiLWJjY2YtYmI3OTE0YzgxMGQyIiwiZXhwIjoxNzEzMzQzOTc2fQ.HZW5uahHgVrA3d7ITDAabFM4_m44zM0Rt9LM2Va_mKQ
 
 {
-    "qualifications": "Registered Nurse",
-    "experience": "5 years",
-    "areas_of_expertise": ["Pediatrics", "Emergency Medicine"],
-    "email": "nurse@example.com",
+    "email": "patient@example.com",
     "first_name": "John",
     "last_name": "Doe",
     "phone": "123-456-7890"
 }
+
+
 

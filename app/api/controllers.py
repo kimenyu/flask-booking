@@ -220,47 +220,71 @@ def create_nurse_profile():
     current_user_id = get_jwt_identity()
     nurse = Nurse.query.get(current_user_id)
 
-    qualifications = request.json.get('qualifications')
-    experience = request.json.get('experience')
-    areas_of_expertise = request.json.get('areas_of_expertise')
-    email = request.json.get('email')
-    first_name = request.json.get('first_name')
-    last_name = request.json.get('last_name')
-    phone = request.json.get('phone')
+    if not nurse:
+        return jsonify({'error': 'User not found'}), 404
 
-    nurse_profile = NurseProfile(nurse=nurse, qualifications=qualifications, experience=experience, areas_of_expertise=areas_of_expertise, email=email, first_name=first_name, last_name=last_name, phone=phone)
-    db.session.add(nurse_profile)
-    db.session.commit()
+    data = request.json
+    qualifications = data.get('qualifications')
+    experience = data.get('experience')
+    areas_of_expertise = data.get('areas_of_expertise')
+    email = data.get('email')
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    phone = data.get('phone')
 
-    return jsonify({'message': 'Nurse profile created successfully!'}), 201
+    nurse_profile = NurseProfile(
+        nurse_id=current_user_id,
+        qualifications=qualifications,
+        experience=experience,
+        areas_of_expertise=areas_of_expertise,
+        email=email,
+        first_name=first_name,
+        last_name=last_name,
+        phone=phone
+    )
 
+    try:
+        db.session.add(nurse_profile)
+        db.session.commit()
+        return jsonify({'message': 'Nurse profile created successfully'}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 #update nurse profile - authenticated nurses can update their profiles
 @jwt_required()
 def update_nurse_profile():
     current_user_id = get_jwt_identity()
-    nurse = Nurse.query.get(current_user_id)
-    nurse_profile = nurse.nurse_profile
 
-    qualifications = request.json.get('qualifications')
-    experience = request.json.get('experience')
-    areas_of_expertise = request.json.get('areas_of_expertise')
-    email = request.json.get('email')
-    first_name = request.json.get('first_name')
-    last_name = request.json.get('last_name')
-    phone = request.json.get('phone')
+    # Check if the nurse profile exists
+    nurse_profile = NurseProfile.query.filter_by(nurse_id=current_user_id).first()
+    if not nurse_profile:
+        return jsonify({'error': 'Nurse profile not found'}), 404
 
-    nurse_profile.qualifications = qualifications
-    nurse_profile.experience = experience
-    nurse_profile.areas_of_expertise = areas_of_expertise
-    nurse_profile.email = email
-    nurse_profile.first_name = first_name
-    nurse_profile.last_name = last_name
-    nurse_profile.phone = phone
+    # Update the nurse profile fields if provided in the request
+    data = request.json
+    if 'qualifications' in data:
+        nurse_profile.qualifications = data['qualifications']
+    if 'experience' in data:
+        nurse_profile.experience = data['experience']
+    if 'areas_of_expertise' in data:
+        # Serialize the list into a string before assigning
+        nurse_profile.areas_of_expertise = ','.join(data['areas_of_expertise'])
+    if 'email' in data:
+        nurse_profile.email = data['email']
+    if 'first_name' in data:
+        nurse_profile.first_name = data['first_name']
+    if 'last_name' in data:
+        nurse_profile.last_name = data['last_name']
+    if 'phone' in data:
+        nurse_profile.phone = data['phone']
 
-    db.session.commit()
-
-    return jsonify({'message': 'Nurse profile updated successfully!'}), 200
+    try:
+        db.session.commit()
+        return jsonify({'message': 'Nurse profile updated successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 #get nurse profile - authenticated nurses can get their profiles
 @jwt_required()
